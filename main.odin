@@ -33,6 +33,7 @@ main :: proc() {
   l := make_lexer(data)
   tokens := lexer_run(&l)
   fmt.println(tokens)
+  // ast := parser_parse(tokens)
   // for ;unicode.is_number(rune(lexer_peek(&l)));{lexer_advance(&l)}
   // fmt.println(string(data[pos:l.pos+1]))
 
@@ -99,8 +100,10 @@ lexer_run :: proc(self:^Lexer) ->  [dynamic]Token {
       case rune(ch) == '*':
         append(&tokens, Token{.Op, rune(ch)})
         lexer_advance(self)
-      case true:
-        lexer_advance(self)
+      case:
+        error := strings.builder_make_none()
+        panic(fmt.sbprintf(&error, "Unknown token: {}\n", rune(ch)))
+        // lexer_advance(self)
     }
   }
   append(&tokens, Token{.EOF, true})
