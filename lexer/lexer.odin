@@ -79,7 +79,9 @@ run :: proc(self:^Lexer) ->  [dynamic]Token {
       case rune(ch) == '*':
         append(&tokens, Token{.Op, rune(ch)})
         advance(self)
-      case:
+      case unicode.is_white_space(rune(ch)):
+        advance(self)
+      case: 
         error := strings.builder_make_none()
         panic(fmt.sbprintf(&error, "Unknown token: {}\n", rune(ch)))
         // lexer_advance(self)
