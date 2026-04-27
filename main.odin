@@ -20,7 +20,7 @@ main :: proc() {
     panic("Could not read a line")
   }
   data := string(buf[:n])
-  if strings.compare(data, "/quit") == 0{
+  if strings.compare(data, "/quit\n") == 0{
     break;
   }
 
